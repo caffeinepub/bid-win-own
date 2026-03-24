@@ -31,15 +31,19 @@ export default function Nav({ currentView, onNavigate }: Props) {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/90 backdrop-blur-md">
+    <header
+      className="sticky top-0 z-50 w-full bg-background/90 backdrop-blur-md"
+      style={{ borderBottom: "1px solid oklch(0.62 0.22 155 / 0.25)" }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between py-4">
           {/* Brand */}
           <button
             type="button"
             onClick={() => onNavigate("home")}
             data-ocid="nav.link"
-            className="font-display font-bold text-xl tracking-widest text-gold hover:opacity-80 transition-opacity"
+            className="brand-shimmer font-display font-bold text-2xl hover:opacity-90 transition-opacity"
+            style={{ letterSpacing: "0.2em" }}
           >
             BID. WIN. OWN.
           </button>
@@ -65,9 +69,7 @@ export default function Nav({ currentView, onNavigate }: Props) {
             )}
             <button
               type="button"
-              onClick={() => {
-                onNavigate("home");
-              }}
+              onClick={() => onNavigate("home")}
               data-ocid="nav.sneakers.link"
               className="text-sm font-medium uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
             >
@@ -75,9 +77,7 @@ export default function Nav({ currentView, onNavigate }: Props) {
             </button>
             <button
               type="button"
-              onClick={() => {
-                onNavigate("home");
-              }}
+              onClick={() => onNavigate("home")}
               data-ocid="nav.handbags.link"
               className="text-sm font-medium uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
             >
@@ -121,7 +121,7 @@ export default function Nav({ currentView, onNavigate }: Props) {
                 onClick={login}
                 disabled={isLoggingIn}
                 data-ocid="nav.login.button"
-                className="gold-gradient text-primary-foreground text-xs uppercase tracking-wider font-semibold hover:opacity-90 transition-opacity"
+                className="gold-gradient text-foreground text-xs uppercase tracking-wider font-semibold hover:opacity-90 transition-opacity"
                 size="sm"
               >
                 {isLoggingIn ? (

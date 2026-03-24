@@ -41,7 +41,7 @@ export default function AuctionCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: index * 0.07 }}
       data-ocid={`auction.item.${index + 1}`}
-      className="group relative flex flex-col rounded-xl overflow-hidden border border-border card-gradient hover:border-primary/50 transition-all duration-300 cursor-pointer"
+      className="gold-glow-hover group relative flex flex-col rounded-xl overflow-hidden border border-border card-gradient hover:border-primary/50 transition-all duration-300 cursor-pointer"
       onClick={() => onSelect(auction)}
     >
       {/* Image area */}
@@ -107,8 +107,11 @@ export default function AuctionCard({
         </h3>
 
         <div className="flex items-end justify-between mt-auto">
-          <div>
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">
+          <div
+            className="pt-3"
+            style={{ borderTop: "1px solid oklch(0.62 0.22 155 / 0.35)" }}
+          >
+            <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-0.5">
               Current Bid
             </p>
             <p className="text-xl font-bold text-gold">
@@ -130,7 +133,14 @@ export default function AuctionCard({
             onSelect(auction);
           }}
           disabled={ended || cancelled}
-          className="w-full gold-gradient text-primary-foreground font-semibold uppercase tracking-wider text-sm hover:opacity-90 transition-opacity disabled:opacity-40"
+          className="w-full font-semibold uppercase tracking-wider text-sm transition-opacity disabled:opacity-40"
+          style={{
+            background:
+              ended || cancelled
+                ? undefined
+                : "linear-gradient(135deg, oklch(0.68 0.22 155), oklch(0.50 0.20 155))",
+            color: ended || cancelled ? undefined : "oklch(0.97 0 0)",
+          }}
         >
           {ended || cancelled
             ? "View Details"

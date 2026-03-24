@@ -155,8 +155,11 @@ export default function SellerDashboard() {
   return (
     <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
       <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-bold uppercase tracking-widest text-foreground">
+        <div
+          className="border-l-2 pl-3"
+          style={{ borderColor: "oklch(0.62 0.22 155)" }}
+        >
+          <h1 className="font-display text-3xl font-bold uppercase tracking-widest text-foreground">
             Seller Dashboard
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
@@ -166,7 +169,13 @@ export default function SellerDashboard() {
         <Button
           onClick={() => setShowForm(!showForm)}
           data-ocid="seller.create.primary_button"
-          className="gold-gradient text-primary-foreground font-semibold uppercase tracking-wider hover:opacity-90 transition-opacity"
+          className="font-semibold uppercase tracking-wider hover:opacity-90 transition-all"
+          style={{
+            background:
+              "linear-gradient(135deg, oklch(0.68 0.22 155), oklch(0.50 0.20 155))",
+            color: "oklch(0.97 0 0)",
+            boxShadow: "0 2px 16px oklch(0.62 0.22 155 / 0.25)",
+          }}
         >
           <Plus className="h-4 w-4 mr-2" />
           New Auction
@@ -178,157 +187,172 @@ export default function SellerDashboard() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-10 p-6 rounded-xl border border-border bg-card"
+          className="mb-10 rounded-xl border border-border bg-card overflow-hidden"
           data-ocid="seller.create.panel"
         >
-          <h2 className="text-lg font-semibold uppercase tracking-wider mb-5">
-            Create Auction
-          </h2>
-          <form onSubmit={handleCreate} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Emerald accent top bar */}
+          <div
+            style={{
+              height: "3px",
+              background:
+                "linear-gradient(90deg, oklch(0.50 0.20 155), oklch(0.75 0.18 155), oklch(0.50 0.20 155))",
+            }}
+          />
+          <div className="p-6">
+            <h2 className="text-lg font-semibold uppercase tracking-wider mb-5">
+              Create Auction
+            </h2>
+            <form onSubmit={handleCreate} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Title *</Label>
+                  <Input
+                    data-ocid="seller.title.input"
+                    placeholder="Nike Air Jordan 1 Retro High OG"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="bg-input border-border"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Category *</Label>
+                  <Select
+                    value={categoryVal}
+                    onValueChange={(v) =>
+                      setCategoryVal(v as "Sneakers" | "Handbags")
+                    }
+                  >
+                    <SelectTrigger
+                      className="bg-input border-border"
+                      data-ocid="seller.category.select"
+                    >
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover border-border">
+                      <SelectItem value="Sneakers">👟 Sneakers</SelectItem>
+                      <SelectItem value="Handbags">👜 Handbags</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
               <div className="space-y-2">
-                <Label>Title *</Label>
-                <Input
-                  data-ocid="seller.title.input"
-                  placeholder="Nike Air Jordan 1 Retro High OG"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="bg-input border-border"
-                  required
+                <Label>Description</Label>
+                <Textarea
+                  data-ocid="seller.description.textarea"
+                  placeholder="Describe the item — condition, size, authentication details..."
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="bg-input border-border min-h-[80px] resize-none"
+                  rows={3}
                 />
               </div>
-              <div className="space-y-2">
-                <Label>Category *</Label>
-                <Select
-                  value={categoryVal}
-                  onValueChange={(v) =>
-                    setCategoryVal(v as "Sneakers" | "Handbags")
-                  }
-                >
-                  <SelectTrigger
-                    className="bg-input border-border"
-                    data-ocid="seller.category.select"
-                  >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-popover border-border">
-                    <SelectItem value="Sneakers">👟 Sneakers</SelectItem>
-                    <SelectItem value="Handbags">👜 Handbags</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
 
-            <div className="space-y-2">
-              <Label>Description</Label>
-              <Textarea
-                data-ocid="seller.description.textarea"
-                placeholder="Describe the item — condition, size, authentication details..."
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="bg-input border-border min-h-[80px] resize-none"
-                rows={3}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>Starting Bid (USD) *</Label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                    $
-                  </span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Starting Bid (USD) *</Label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                      $
+                    </span>
+                    <Input
+                      type="number"
+                      min="1"
+                      step="1"
+                      data-ocid="seller.startbid.input"
+                      placeholder="50"
+                      value={startingBidDollars}
+                      onChange={(e) => setStartingBidDollars(e.target.value)}
+                      className="bg-input border-border pl-7"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label>Auction End Date & Time *</Label>
                   <Input
-                    type="number"
-                    min="1"
-                    step="1"
-                    data-ocid="seller.startbid.input"
-                    placeholder="50"
-                    value={startingBidDollars}
-                    onChange={(e) => setStartingBidDollars(e.target.value)}
-                    className="bg-input border-border pl-7"
+                    type="datetime-local"
+                    data-ocid="seller.endtime.input"
+                    value={endDatetime}
+                    onChange={(e) => setEndDatetime(e.target.value)}
+                    className="bg-input border-border"
                     required
                   />
                 </div>
               </div>
+
               <div className="space-y-2">
-                <Label>Auction End Date & Time *</Label>
-                <Input
-                  type="datetime-local"
-                  data-ocid="seller.endtime.input"
-                  value={endDatetime}
-                  onChange={(e) => setEndDatetime(e.target.value)}
-                  className="bg-input border-border"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label>Product Photo</Label>
-              <button
-                type="button"
-                className="relative flex items-center justify-center h-36 rounded-lg border-2 border-dashed border-border hover:border-primary transition-colors cursor-pointer"
-                onClick={() => document.getElementById("photoInput")?.click()}
-                data-ocid="seller.photo.dropzone"
-              >
-                {photoPreview ? (
-                  <img
-                    src={photoPreview}
-                    alt="Preview"
-                    className="h-full w-full object-cover rounded-lg"
-                  />
-                ) : (
-                  <div className="flex flex-col items-center gap-2 text-muted-foreground">
-                    <ImagePlus className="h-8 w-8" />
-                    <span className="text-sm">Click to upload photo</span>
-                  </div>
-                )}
-                <input
-                  id="photoInput"
-                  type="file"
-                  accept="image/*"
-                  className="sr-only"
-                  onChange={handlePhotoChange}
-                  data-ocid="seller.photo.upload_button"
-                />
-              </button>
-              {uploadProgress !== null && uploadProgress < 100 && (
-                <p
-                  className="text-xs text-muted-foreground"
-                  data-ocid="seller.upload.loading_state"
+                <Label>Product Photo</Label>
+                <button
+                  type="button"
+                  className="relative flex items-center justify-center h-36 rounded-lg border-2 border-dashed border-border hover:border-primary transition-colors cursor-pointer w-full"
+                  onClick={() => document.getElementById("photoInput")?.click()}
+                  data-ocid="seller.photo.dropzone"
                 >
-                  Uploading: {uploadProgress}%
-                </p>
-              )}
-            </div>
+                  {photoPreview ? (
+                    <img
+                      src={photoPreview}
+                      alt="Preview"
+                      className="h-full w-full object-cover rounded-lg"
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                      <ImagePlus className="h-8 w-8" />
+                      <span className="text-sm">Click to upload photo</span>
+                    </div>
+                  )}
+                  <input
+                    id="photoInput"
+                    type="file"
+                    accept="image/*"
+                    className="sr-only"
+                    onChange={handlePhotoChange}
+                    data-ocid="seller.photo.upload_button"
+                  />
+                </button>
+                {uploadProgress !== null && uploadProgress < 100 && (
+                  <p
+                    className="text-xs text-muted-foreground"
+                    data-ocid="seller.upload.loading_state"
+                  >
+                    Uploading: {uploadProgress}%
+                  </p>
+                )}
+              </div>
 
-            <div className="flex gap-3 pt-2">
-              <Button
-                type="submit"
-                data-ocid="seller.create.submit_button"
-                disabled={isCreating}
-                className="gold-gradient text-primary-foreground font-semibold uppercase tracking-wider hover:opacity-90 transition-opacity"
-              >
-                {isCreating ? (
-                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                ) : null}
-                {isCreating ? "Creating..." : "Create Auction"}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                data-ocid="seller.create.cancel_button"
-                onClick={() => {
-                  resetForm();
-                  setShowForm(false);
-                }}
-                className="border-border hover:border-primary"
-              >
-                Cancel
-              </Button>
-            </div>
-          </form>
+              <div className="flex gap-3 pt-2">
+                <Button
+                  type="submit"
+                  data-ocid="seller.create.submit_button"
+                  disabled={isCreating}
+                  className="font-semibold uppercase tracking-wider hover:opacity-90 transition-opacity"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, oklch(0.68 0.22 155), oklch(0.50 0.20 155))",
+                    color: "oklch(0.97 0 0)",
+                  }}
+                >
+                  {isCreating ? (
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  ) : null}
+                  {isCreating ? "Creating..." : "Create Auction"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  data-ocid="seller.create.cancel_button"
+                  onClick={() => {
+                    resetForm();
+                    setShowForm(false);
+                  }}
+                  className="border-border hover:border-primary"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </div>
         </motion.div>
       )}
 
@@ -336,7 +360,7 @@ export default function SellerDashboard() {
 
       {/* My auctions */}
       <div>
-        <h2 className="text-lg font-semibold uppercase tracking-widest mb-5">
+        <h2 className="font-display text-lg font-semibold uppercase tracking-widest mb-5">
           My Listings
         </h2>
 

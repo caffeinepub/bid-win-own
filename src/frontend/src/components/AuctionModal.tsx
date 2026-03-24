@@ -79,6 +79,16 @@ export default function AuctionModal({
         className="sm:max-w-2xl max-h-[90vh] flex flex-col border-border bg-card p-0 overflow-hidden"
         data-ocid="auction.modal"
       >
+        {/* Emerald accent bar at top */}
+        <div
+          className="w-full flex-shrink-0"
+          style={{
+            height: "3px",
+            background:
+              "linear-gradient(90deg, oklch(0.50 0.20 155), oklch(0.75 0.18 155), oklch(0.50 0.20 155))",
+          }}
+        />
+
         <div className="flex flex-col md:flex-row flex-1 min-h-0">
           {/* Left: Image */}
           <div className="relative md:w-2/5 aspect-square md:aspect-auto bg-accent/20 flex-shrink-0">
@@ -198,7 +208,12 @@ export default function AuctionModal({
                         type="submit"
                         data-ocid="auction.bid.submit_button"
                         disabled={isPending}
-                        className="gold-gradient text-primary-foreground font-semibold uppercase tracking-wider hover:opacity-90 transition-opacity"
+                        className="font-semibold uppercase tracking-wider hover:opacity-90 transition-opacity"
+                        style={{
+                          background:
+                            "linear-gradient(135deg, oklch(0.68 0.22 155), oklch(0.50 0.20 155))",
+                          color: "oklch(0.97 0 0)",
+                        }}
                       >
                         {isPending ? (
                           <Loader2 className="h-4 w-4 animate-spin" />
