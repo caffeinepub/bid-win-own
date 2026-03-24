@@ -1,0 +1,63 @@
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserProfile = 
+ record {
+   displayName: text;
+   "principal": principal;
+   role: UserRole;
+ };
+type Category = 
+ variant {
+   Handbags;
+   Sneakers;
+ };
+type Bid = 
+ record {
+   amount: nat;
+   bidder: principal;
+   timestamp: int;
+ };
+type AuctionStatus = 
+ variant {
+   Active;
+   Cancelled;
+   Ended;
+ };
+type Auction = 
+ record {
+   bidCount: nat;
+   category: Category;
+   currentHighestBid: nat;
+   description: text;
+   endTime: int;
+   highestBidder: opt principal;
+   id: nat;
+   photoKey: text;
+   seller: principal;
+   startingBid: nat;
+   status: AuctionStatus;
+   title: text;
+ };
+service : {
+  _initializeAccessControlWithSecret: (userSecret: text) -> ();
+  adminGetAllAuctions: () -> (vec Auction) query;
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  cancelAuction: (id: nat) -> ();
+  createAuction: (title: text, description: text, category: Category,
+   startingBid: nat, endTime: int, photoKey: text) -> (nat);
+  getActiveAuctions: () -> (vec Auction) query;
+  getAllUsers: () -> (vec UserProfile) query;
+  getAuction: (id: nat) -> (opt Auction) query;
+  getAuctionsByCategory: (category: Category) -> (vec Auction) query;
+  getBidHistory: (auctionId: nat) -> (vec Bid) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getMyAuctions: () -> (vec Auction) query;
+  getMyProfile: () -> (UserProfile) query;
+  isCallerAdmin: () -> (bool) query;
+  placeBid: (auctionId: nat, amount: nat) -> ();
+  registerUser: (displayName: text, secret: text) -> ();
+}
